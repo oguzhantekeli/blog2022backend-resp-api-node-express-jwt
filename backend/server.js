@@ -17,6 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/blogs", require("./routes/blogRoutes"));
 app.use("/api/comments", require("./routes/commentRoutes"));
+app.use("/api/users", require("./routes/userRoutes"));
 app.use(errorHandler);
 //bu error handler routes dan sonra gelmeli
 // default olarak express error handler html olarak döner. onu değiştirip kendi error handler

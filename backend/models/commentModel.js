@@ -3,12 +3,14 @@ const mongoose = require("mongoose");
 const commentSchema = mongoose.Schema(
   {
     blogId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: "Blog",
     },
     commentOwnerId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: "User",
     },
     commentOwnerName: {
       type: String,

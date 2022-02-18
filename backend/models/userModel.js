@@ -8,10 +8,12 @@ const userSchema = mongoose.Schema(
     },
     avatar: {
       type: String,
+      default: "avatar img url",
     },
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     password: {
       type: String,
@@ -23,6 +25,7 @@ const userSchema = mongoose.Schema(
     },
     about: {
       type: String,
+      default: "about me",
     },
   },
   {
