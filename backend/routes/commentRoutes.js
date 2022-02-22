@@ -5,8 +5,12 @@ const {
   updateComment,
   deleteComment,
 } = require("../controllers/commentController");
-
-router.route("/:id").put(updateComment).delete(deleteComment).post(addComment);
+const { protect } = require("../middleware/authMiddleware");
+router
+  .route("/:id")
+  .put(protect, updateComment)
+  .delete(protect, deleteComment)
+  .post(protect, addComment);
 //post ->id = blogId
 //put&delete -> commentId
 
