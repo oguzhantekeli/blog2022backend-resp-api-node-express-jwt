@@ -101,7 +101,7 @@ const deleteUser = asyncHandler(async (req, res) => {
 });
 
 const generateToken = (id) => {
-  // burada yoken içerisie gömmek istediğimiz değerleri parametre olarak alırız(id,name,email...)
+  // burada token içerisie gömmek istediğimiz değerleri parametre olarak alırız(id,name,email...)
   // daha sonra middleware ile decode ederken bu parametreler karşılaştırılır.
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
 };
