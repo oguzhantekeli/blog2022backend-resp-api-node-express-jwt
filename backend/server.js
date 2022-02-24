@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv").config();
 const port = process.env.PORT || 5000;
+const cors = require("cors"); //cors policy error handling
 const { errorHandler } = require("./middleware/errorMiddleware");
 const { connectDb } = require("./config/db");
 connectDb(); //database connection config dosyası
@@ -15,6 +16,18 @@ app.use(express.urlencoded({ extended: false }));
 //      }
 //     }]
 
+const whitelist = ["http://localhost:3000"];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use("/api/blogs", require("./routes/blogRoutes"));
 app.use("/api/comments", require("./routes/commentRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
