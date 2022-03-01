@@ -25,6 +25,10 @@ const loginUser = asyncHandler(async (req, res) => {
     res.json({
       userName: user.userName,
       email: user.email,
+      avatar: user.avatar,
+      about: user.about,
+      status: user.status,
+      createdAt: user.createdAt,
       token: generateToken(user._id),
     });
   } else {
@@ -63,6 +67,10 @@ const addUser = asyncHandler(async (req, res) => {
     res.status(201).json({
       userName: user.userName,
       email: user.email,
+      avatar: user.avatar,
+      about: user.about,
+      status: user.status,
+      createdAt: user.createdAt,
       token: generateToken(user._id),
     });
   } else {
