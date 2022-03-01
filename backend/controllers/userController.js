@@ -7,10 +7,11 @@ const bcrypt = require("bcryptjs");
 // route post /api/users/user
 // access  private
 const getUser = asyncHandler(async (req, res) => {
+  //todo: get one user data
+
   //if authenticated
 
-  const user = req.user;
-  res.status(200).json(user);
+  res.status(200).json(req.user);
 });
 
 // desc get user data
@@ -20,14 +21,16 @@ const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   //if authenticated
   const user = await User.findOne({ email: email });
-  if (user && bcrypt.compare(password, user.password)) {
+  if (user && (await bcrypt.compare(password, user.password))) {
     res.json({
       userName: user.userName,
       email: user.email,
       token: generateToken(user._id),
     });
   } else {
-    res.status(400);
+    res
+      .status(400)
+      .json({ error: "Invalid credentials", message: "Invalid credentials" });
     throw new Error("Invalid credentials");
   }
 });
