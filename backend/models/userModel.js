@@ -10,6 +10,11 @@ const userSchema = mongoose.Schema(
       type: String,
       default: "default",
     },
+    title: {
+      type: String,
+      required: true,
+      default: "my title",
+    },
     email: {
       type: String,
       required: true,
@@ -26,6 +31,22 @@ const userSchema = mongoose.Schema(
     about: {
       type: String,
       default: "about me",
+    },
+    webSite: {
+      type: String,
+      default: "",
+    },
+    facebook: {
+      type: String,
+      default: "",
+    },
+    twitter: {
+      type: String,
+      default: "",
+    },
+    instagram: {
+      type: String,
+      default: "",
     },
   },
   {

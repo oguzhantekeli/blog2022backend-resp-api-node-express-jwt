@@ -25,8 +25,13 @@ const loginUser = asyncHandler(async (req, res) => {
     res.json({
       userName: user.userName,
       email: user.email,
+      title: user.title,
       avatar: user.avatar,
       about: user.about,
+      webSite: user.webSite,
+      facebook: user.facebook,
+      twitter: user.twitter,
+      instagram: user.instagram,
       status: user.status,
       createdAt: user.createdAt,
       token: generateToken(user._id),
@@ -67,9 +72,14 @@ const addUser = asyncHandler(async (req, res) => {
     res.status(201).json({
       userName: user.userName,
       email: user.email,
+      title: user.title,
       avatar: user.avatar,
       about: user.about,
       status: user.status,
+      webSite: user.webSite,
+      facebook: user.facebook,
+      twitter: user.twitter,
+      instagram: user.instagram,
       createdAt: user.createdAt,
       token: generateToken(user._id),
     });
