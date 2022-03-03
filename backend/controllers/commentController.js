@@ -7,6 +7,12 @@ const Comment = require("../models/commentModel");
 //
 //
 
+//get all comments
+const getComments = asyncHandler(async (req, res) => {
+  const comments = await Comment.find();
+  res.status(200).json(comments);
+});
+
 // desc add new comment
 // route post /api/comments/:blogId
 // access  private
@@ -81,4 +87,4 @@ const deleteComment = asyncHandler(async (req, res) => {
     .json(`comment " ${comment.commentText} " deleted successfully.`);
 });
 
-module.exports = { addComment, updateComment, deleteComment };
+module.exports = { getComments, addComment, updateComment, deleteComment };
