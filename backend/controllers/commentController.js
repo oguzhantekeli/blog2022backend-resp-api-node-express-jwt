@@ -1,6 +1,12 @@
 const asyncHandler = require("express-async-handler");
 const Comment = require("../models/commentModel");
 
+//
+//
+//todo update delete actions needs user authentication
+//
+//
+
 // desc add new comment
 // route post /api/comments/:blogId
 // access  private
@@ -22,6 +28,16 @@ const updateComment = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("comment not found");
   }
+  if (!req.user) {
+    res.status(401);
+    throw new Error("Unauthenticated action");
+  }
+
+  if (comment.user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error("Unauthenticated action");
+  }
+
   const updatedComment = await Comment.findByIdAndUpdate(
     req.params.id,
     req.body,
@@ -34,6 +50,16 @@ const updateComment = asyncHandler(async (req, res) => {
 // access  private
 const deleteComment = asyncHandler(async (req, res) => {
   const comment = await Comment.findById(req.params.id);
+
+  if (!req.user) {
+    res.status(401);
+    throw new Error("Unauthenticated action");
+  }
+
+  if (comment.user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error("Unauthenticated action");
+  }
   if (!comment) {
     res.status(400);
     throw new Error("comment not found");

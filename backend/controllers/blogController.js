@@ -1,3 +1,5 @@
+//todo update delete actions needs user authentication
+
 const asyncHandler = require("express-async-handler");
 const Blog = require("../models/blogModel");
 const Comment = require("../models/commentModel");
@@ -49,6 +51,17 @@ const updateBlog = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("blog not found");
   }
+
+  if (!req.user) {
+    res.status(401);
+    throw new Error("Unauthenticated action");
+  }
+
+  if (blog.user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error("Unauthenticated action");
+  }
+
   const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   });
@@ -63,6 +76,16 @@ const deleteBlog = asyncHandler(async (req, res) => {
   if (!blog) {
     res.status(400);
     throw new Error("blog not found");
+  }
+
+  if (!req.user) {
+    res.status(401);
+    throw new Error("Unauthenticated action");
+  }
+
+  if (blog.user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error("Unauthenticated action");
   }
   await blog.remove();
   res.status(200).json({ msg: `blog ${blog.title} deleted` });

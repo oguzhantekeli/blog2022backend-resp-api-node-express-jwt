@@ -3,12 +3,14 @@ const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
+//
+//todo update delete actions needs user authentication
+//
+
 // desc get user data
 // route post /api/users/user
 // access  private
 const getUser = asyncHandler(async (req, res) => {
-  //todo: get one user data
-
   //if authenticated
 
   res.status(200).json(req.user);
