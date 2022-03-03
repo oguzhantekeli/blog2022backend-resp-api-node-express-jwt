@@ -16,8 +16,19 @@ const getBlogs = asyncHandler(async (req, res) => {
 // access private/(public before auth)
 const getBlog = asyncHandler(async (req, res) => {
   const blog = await Blog.findById(req.params.id);
-  const comments = await Comment.find({ blogId: req.params.id });
-  res.status(200).json({ blog, comments });
+  // const comments = await Comment.find({ blogId: req.params.id });
+  res.status(200).json({
+    id: blog._id,
+    title: blog.title,
+    text: blog.text,
+    author: blog.author,
+    email: blog.email,
+    registered: blog.registered,
+    imageBigUrl: blog.imageBigUrl,
+    imageThumbUrl: blog.imageThumbUrl,
+    category: blog.category,
+    tags: blog.tags,
+  });
 });
 
 //desc create blog
@@ -36,10 +47,20 @@ const setBlog = asyncHandler(async (req, res) => {
     imageThumbUrl: req.body.imageThumbUrl,
     category: req.body.category,
     tags: req.body.tags,
-    commentsId: req.body.commentsId,
   });
 
-  res.status(200).json(blog);
+  res.status(200).json({
+    id: blog._id,
+    title: blog.title,
+    text: blog.text,
+    author: blog.author,
+    email: blog.email,
+    registered: blog.registered,
+    imageBigUrl: blog.imageBigUrl,
+    imageThumbUrl: blog.imageThumbUrl,
+    category: blog.category,
+    tags: blog.tags,
+  });
 });
 
 //desc update blog
@@ -65,7 +86,18 @@ const updateBlog = asyncHandler(async (req, res) => {
   const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   });
-  res.status(200).json(updatedBlog);
+  res.status(200).json({
+    id: updatedBlog._id,
+    title: updatedBlog.title,
+    text: updatedBlog.text,
+    author: updatedBlog.author,
+    email: updatedBlog.email,
+    registered: updatedBlog.registered,
+    imageBigUrl: updatedBlog.imageBigUrl,
+    imageThumbUrl: updatedBlog.imageThumbUrl,
+    category: updatedBlog.category,
+    tags: updatedBlog.tags,
+  });
 });
 
 //desc delete blog

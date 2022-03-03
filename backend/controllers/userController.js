@@ -25,6 +25,7 @@ const loginUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email: email });
   if (user && (await bcrypt.compare(password, user.password))) {
     res.json({
+      id: user._id,
       userName: user.userName,
       email: user.email,
       title: user.title,
@@ -72,6 +73,7 @@ const addUser = asyncHandler(async (req, res) => {
   });
   if (user) {
     res.status(201).json({
+      id: user._id,
       userName: user.userName,
       email: user.email,
       title: user.title,

@@ -14,6 +14,6 @@ router
   .route("/:id")
   .put(protect, updateBlog)
   .delete(protect, deleteBlog)
-  .get(protect, getBlog);
+  .get(getBlog);
 
 module.exports = router;
