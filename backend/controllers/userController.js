@@ -8,8 +8,8 @@ const bcrypt = require("bcryptjs");
 //
 
 // desc get user data
-// route post /api/users/user
-// access  private
+// route post /api/users/user/:id
+// access  public
 const getUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
   if (user) {
@@ -30,12 +30,9 @@ const getUser = asyncHandler(async (req, res) => {
       .json({ error: "User Not Found.", message: "User Not Found." });
     throw new Error("User Not Found.");
   }
-  //if authenticated
-
-  res.status(200).json(req.user);
 });
 
-// desc get user data
+// desc login user
 // route post /api/users/login
 // access  private
 const loginUser = asyncHandler(async (req, res) => {
@@ -113,7 +110,7 @@ const addUser = asyncHandler(async (req, res) => {
 });
 
 // desc update user
-// route post /api/users/:id
+// route put /api/users/:id
 // access  private
 const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
@@ -122,6 +119,11 @@ const updateUser = asyncHandler(async (req, res) => {
     throw new Error("user not found");
   }
   //if user authenticated
+
+  if (req.user.id.toString() !== req.params.id) {
+    res.status(401);
+    throw new Error("User not authorized.");
+  }
   if (!req.body.userName) {
     res.status(400);
     throw new Error("user name not provided.Please try again.");
@@ -130,10 +132,9 @@ const updateUser = asyncHandler(async (req, res) => {
   const updatedUser = await User.findById(req.params.id);
   if (!updatedUser) {
     res.status(400);
-    throw new Error("update not olmadı");
+    throw new Error("update fail");
   }
-  console.log("req body:", req.body);
-  console.log("updatedUser:", updatedUser);
+
   res.status(200).json({
     id: updatedUser._id,
     userName: updatedUser.userName,
@@ -159,6 +160,11 @@ const deleteUser = asyncHandler(async (req, res) => {
   if (!user) {
     res.status(400);
     throw new Error("user not found");
+  }
+
+  if (req.user.id.toString() !== req.params.id) {
+    res.status(401);
+    throw new Error("User not authorized.");
   }
   //if user authenticated
   user.remove();
