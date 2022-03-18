@@ -1,5 +1,4 @@
 const express = require("express");
-const { getuid } = require("process");
 const router = express.Router();
 const {
   addUser,
@@ -12,7 +11,7 @@ const { protect } = require("../middleware/authMiddleware");
 
 router.post("/", addUser);
 router.post("/login", loginUser);
-router.get("/user", getUser);
+router.get("/user/:id", getUser);
 router.put("/:id", protect, updateUser);
 router.delete("/:id", protect, deleteUser);
 

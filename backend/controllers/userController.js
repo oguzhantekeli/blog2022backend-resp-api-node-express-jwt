@@ -11,6 +11,25 @@ const bcrypt = require("bcryptjs");
 // route post /api/users/user
 // access  private
 const getUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (user) {
+    res.status(200).json({
+      id: user._id,
+      userName: user.userName,
+      title: user.title,
+      avatar: user.avatar,
+      about: user.about,
+      webSite: user.webSite,
+      facebook: user.facebook,
+      twitter: user.twitter,
+      instagram: user.instagram,
+    });
+  } else {
+    res
+      .status(400)
+      .json({ error: "User Not Found.", message: "User Not Found." });
+    throw new Error("User Not Found.");
+  }
   //if authenticated
 
   res.status(200).json(req.user);
@@ -103,12 +122,33 @@ const updateUser = asyncHandler(async (req, res) => {
     throw new Error("user not found");
   }
   //if user authenticated
-  if (!req.body.userName || !req.body.email || !req.body.password) {
+  if (!req.body.userName) {
     res.status(400);
-    throw new Error("user name, password or email missing.Please try again.");
+    throw new Error("user name not provided.Please try again.");
   }
-  const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body);
-  res.status(200).json(updatedUser);
+  await User.findByIdAndUpdate(req.params.id, req.body);
+  const updatedUser = await User.findById(req.params.id);
+  if (!updatedUser) {
+    res.status(400);
+    throw new Error("update not olmadı");
+  }
+  console.log("req body:", req.body);
+  console.log("updatedUser:", updatedUser);
+  res.status(200).json({
+    id: updatedUser._id,
+    userName: updatedUser.userName,
+    email: updatedUser.email,
+    title: updatedUser.title,
+    avatar: updatedUser.avatar,
+    about: updatedUser.about,
+    status: updatedUser.status,
+    webSite: updatedUser.webSite,
+    facebook: updatedUser.facebook,
+    twitter: updatedUser.twitter,
+    instagram: updatedUser.instagram,
+    updatedAt: updatedUser.updatedAt,
+    token: generateToken(updatedUser._id),
+  });
 });
 
 // desc delete user
