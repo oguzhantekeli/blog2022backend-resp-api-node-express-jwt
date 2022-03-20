@@ -152,6 +152,38 @@ const updateUser = asyncHandler(async (req, res) => {
   });
 });
 
+// desc change user password
+// route put /api/users/changepassword/:id
+// access  private
+const changePassword = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    res.status(400);
+    throw new Error("user not found");
+  }
+
+  if (req.user.id.toString() !== req.params.id) {
+    res.status(401);
+    throw new Error("User not authorized.");
+  }
+  const { currentPassword, password } = req.body;
+  if (user && (await bcrypt.compare(currentPassword, user.password))) {
+    //hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    await User.findByIdAndUpdate(req.params.id, { password: hashedPassword });
+    res.status(200).json("Password Changed Successfully.");
+  } else {
+    res.status(401).json({
+      message:
+        "Invalid credentials to change password. Check current password.",
+    });
+    throw new Error(
+      "Invalid credentials to change password. Check current password."
+    );
+  }
+});
+
 // desc delete user
 // route post /api/users/:id
 // access  private
@@ -177,4 +209,11 @@ const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
 };
 
-module.exports = { loginUser, getUser, addUser, updateUser, deleteUser };
+module.exports = {
+  loginUser,
+  getUser,
+  addUser,
+  updateUser,
+  changePassword,
+  deleteUser,
+};
