@@ -13,8 +13,8 @@ BASE_URI = https://mern-backend-blog2022.herokuapp.com/api
 
 USER ENDPOINTS
 
-Register\n
-method: post\n
+Register \n
+method: post \n
 url: /users
 body->{userName, email, password}
 
