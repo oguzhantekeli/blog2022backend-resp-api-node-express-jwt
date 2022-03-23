@@ -9,7 +9,7 @@ const {
 } = require("../controllers/blogController");
 const { protect } = require("../middleware/authMiddleware");
 
-router.route("/").get(getBlogs).post(setBlog);
+router.route("/").get(getBlogs).post(protect, setBlog);
 router
   .route("/:id")
   .put(protect, updateBlog)
