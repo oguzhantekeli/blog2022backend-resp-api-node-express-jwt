@@ -46,7 +46,7 @@ Auth: Bearer Token
   
 ------------------------------------------  
   
-BLOG ENDPOINTS  
+BLOG ENDPOINTS  (Development in progress.)
   
 Get All Blog Posts  
 method: get  
