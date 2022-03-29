@@ -42,5 +42,10 @@ const blogSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
-module.exports = mongoose.model("Blog", blogSchema, "blogs");
-module.exports = mongoose.model("Category", categoriesSchema, "categories");
+
+const Blog = mongoose.model("Blog", blogSchema, "blogs");
+const Category = mongoose.model("Category", categoriesSchema, "categories");
+// module.exports = mongoose.model("Blog", blogSchema, "blogs");
+// module.exports = mongoose.model("Category", categoriesSchema, "categories");
+
+module.exports = { Blog, Category };
