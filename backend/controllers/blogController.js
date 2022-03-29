@@ -45,18 +45,26 @@ const getBlog = asyncHandler(async (req, res) => {
 //route /api/blogs
 // access private/(public before auth)
 const setBlog = asyncHandler(async (req, res) => {
-  if (!req.body.category || !req.body.authorId || !req.body.title) {
+  if (
+    !req.body.category ||
+    !req.body.authorId ||
+    !req.body.authorName ||
+    !req.body.title ||
+    !req.body.status
+  ) {
     res.status(400);
     throw new Error("please add all required fields");
   }
   const blog = await Blog.create({
     authorId: req.body.authorId,
+    author: req.body.authorName,
     title: req.body.title,
-    text: req.body.text,
-    imageBigUrl: req.body.imageBigUrl,
-    imageThumbUrl: req.body.imageThumbUrl,
+    text: req.body.blogtext,
+    imageBigUrl: req.body.blogImage,
+    imageThumbUrl: req.body.blogImage,
     category: req.body.category,
     tags: req.body.tags,
+    status: req.body.status,
   });
 
   res.status(200).json({
@@ -65,11 +73,12 @@ const setBlog = asyncHandler(async (req, res) => {
     text: blog.text,
     author: blog.author,
     email: blog.email,
-    registered: blog.registered,
+    updatedAt: blog.updatedAt,
     imageBigUrl: blog.imageBigUrl,
     imageThumbUrl: blog.imageThumbUrl,
     category: blog.category,
     tags: blog.tags,
+    status: blog.status,
   });
 });
 
