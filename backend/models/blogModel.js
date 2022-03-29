@@ -1,4 +1,14 @@
 const mongoose = require("mongoose");
+const categoriesSchema = mongoose.Schema(
+  {
+    category: {
+      type: String,
+      required: true,
+      default: "general",
+    },
+  },
+  { timestamps: true }
+);
 const blogSchema = mongoose.Schema(
   {
     authorId: {
@@ -33,3 +43,4 @@ const blogSchema = mongoose.Schema(
   { timestamps: true }
 );
 module.exports = mongoose.model("Blog", blogSchema, "blogs");
+module.exports = mongoose.model("Category", categoriesSchema, "categories");

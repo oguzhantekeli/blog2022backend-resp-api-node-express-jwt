@@ -2,7 +2,16 @@
 
 const asyncHandler = require("express-async-handler");
 const Blog = require("../models/blogModel");
+const Category = require("../models/blogModel");
 const Comment = require("../models/commentModel");
+
+//desc get categories
+//route /api/blogs/categories
+// access public
+const getCategories = asyncHandler(async (req, res) => {
+  const categories = await Category.find();
+  res.status(200).json(categories);
+});
 
 //desc get all blogs
 //route /api/blogs
@@ -11,6 +20,7 @@ const getBlogs = asyncHandler(async (req, res) => {
   const blogs = await Blog.find();
   res.status(200).json(blogs);
 });
+
 //desc get single blog
 //route /api/blog/:id
 // access private/(public before auth)
@@ -129,4 +139,5 @@ module.exports = {
   setBlog,
   updateBlog,
   deleteBlog,
+  getCategories,
 };
