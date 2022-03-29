@@ -1,11 +1,11 @@
 //todo update delete actions needs user authentication
 
 const asyncHandler = require("express-async-handler");
-const Blog = require("../models/blogModel");
-const Category = require("../models/blogModel");
+const { Blog } = require("../models/blogModel");
+const { Category } = require("../models/blogModel");
 const Comment = require("../models/commentModel");
 
-//desc get categories
+//desc get categories.
 //route /api/blogs/categories
 // access public
 const getCategories = asyncHandler(async (req, res) => {
