@@ -125,7 +125,7 @@ const deleteBlog = asyncHandler(async (req, res) => {
   const blog = await Blog.findById(req.params.id);
   if (blog.authorId.toString() !== req.user.id) {
     res.status(401);
-    throw new Error("Unauthenticated action");
+    throw new Error("Unauthenticated action,impossile...");
   }
   if (!blog) {
     res.status(400);
@@ -134,10 +134,10 @@ const deleteBlog = asyncHandler(async (req, res) => {
 
   if (!req.user) {
     res.status(401);
-    throw new Error("Unauthenticated action-tokenize");
+    throw new Error("Unauthenticated action,no valid token");
   }
   await blog.remove();
-  res.status(200).json({ msg: `blog ${blog.title} deleted` });
+  res.status(200).json({ message: `blog ${blog.title} deleted` });
 });
 
 module.exports = {
