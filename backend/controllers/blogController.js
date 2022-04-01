@@ -123,6 +123,10 @@ const updateBlog = asyncHandler(async (req, res) => {
 // access private/(public before auth)
 const deleteBlog = asyncHandler(async (req, res) => {
   const blog = await Blog.findById(req.params.id);
+  if (blog.authorId.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error("Unauthenticated action");
+  }
   if (!blog) {
     res.status(400);
     throw new Error("blog not found");
@@ -130,12 +134,7 @@ const deleteBlog = asyncHandler(async (req, res) => {
 
   if (!req.user) {
     res.status(401);
-    throw new Error("Unauthenticated action");
-  }
-
-  if (blog.user.toString() !== req.user.id) {
-    res.status(401);
-    throw new Error("Unauthenticated action");
+    throw new Error("Unauthenticated action-tokenize");
   }
   await blog.remove();
   res.status(200).json({ msg: `blog ${blog.title} deleted` });
