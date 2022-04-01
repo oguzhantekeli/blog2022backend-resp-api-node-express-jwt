@@ -89,7 +89,7 @@ const setBlog = asyncHandler(async (req, res) => {
 // access private/(public before auth)
 const updateBlog = asyncHandler(async (req, res) => {
   const blog = await Blog.findById(req.params.id);
-  if (blog.id.toString() !== req.user.id) {
+  if (blog.authorId.toString() !== req.user.id) {
     res.status(401);
     throw new Error("Unauthenticated action");
   }
