@@ -118,6 +118,21 @@ const updateBlog = asyncHandler(async (req, res) => {
   });
 });
 
+const updateUserBlogs = asyncHandler(async (req, res) => {
+  const blogs = await Blog.updateMany(
+    { author: req.body.oldUserName },
+    { author: req.body.newUserName }
+  );
+  if (blogs) {
+    res
+      .status(200)
+      .json({
+        "updated?": blogs.acknowledged,
+        "items count:": blogs.modifiedCount,
+      });
+  }
+});
+
 //desc delete blog
 //route /api/blogs/:id
 // access private/(public before auth)
@@ -145,6 +160,7 @@ module.exports = {
   getBlog,
   setBlog,
   updateBlog,
+  updateUserBlogs,
   deleteBlog,
   getCategories,
 };

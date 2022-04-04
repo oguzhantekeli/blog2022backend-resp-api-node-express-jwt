@@ -5,12 +5,17 @@ const {
   getBlog,
   setBlog,
   updateBlog,
+  updateUserBlogs,
   deleteBlog,
   getCategories,
 } = require("../controllers/blogController");
 const { protect } = require("../middleware/authMiddleware");
 
-router.route("/").get(getBlogs).post(protect, setBlog);
+router
+  .route("/")
+  .get(getBlogs)
+  .post(protect, setBlog)
+  .put(protect, updateUserBlogs);
 router.route("/categories").get(getCategories);
 router
   .route("/:id")
