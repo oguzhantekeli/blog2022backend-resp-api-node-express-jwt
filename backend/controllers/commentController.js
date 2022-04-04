@@ -32,10 +32,10 @@ const addComment = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error("User Not Found...");
   }
-  if (req.user.id !== req.body.commentOwnerId) {
+  if (req.user.id !== user._id) {
     res.status(401);
     throw new Error(
-      `Unauthenticated Action. Login First...${req.user.id} - ${req.body.commentOwnerId}`
+      `Unauthenticated Action. Login First...${req.user.id} - ${user._id}`
     );
     // throw new Error("Unauthenticated Action. Login First...");
   }
