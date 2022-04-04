@@ -27,19 +27,14 @@ const addComment = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Required fields must be set...");
   }
-  const user = User.findById(req.body.commentOwnerId);
+  const user = await User.findById(req.body.commentOwnerId);
   if (!user) {
     res.status(401);
     throw new Error("User Not Found...");
   }
   if (req.user.id !== user._id) {
     res.status(401);
-    throw new Error(
-      `Unauthenticated Action. Login First...${req.user.id} - ${JSON.stringify(
-        user
-      )}`
-    );
-    // throw new Error("Unauthenticated Action. Login First...");
+    throw new Error("Unauthenticated Action. Login First...");
   }
   const comment = await Comment.create({
     blogId: req.params.id,
