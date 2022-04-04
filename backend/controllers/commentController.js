@@ -34,7 +34,10 @@ const addComment = asyncHandler(async (req, res) => {
   }
   if (req.user.id !== req.body.commentOwnerId) {
     res.status(401);
-    throw new Error("Unauthenticated Action. Login First...");
+    throw new Error(
+      `Unauthenticated Action. Login First...${req.user.id} - ${req.body.commentOwnerId}`
+    );
+    // throw new Error("Unauthenticated Action. Login First...");
   }
   const comment = await Comment.create({
     blogId: req.params.id,
