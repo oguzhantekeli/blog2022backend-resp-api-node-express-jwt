@@ -17,7 +17,7 @@ const getCategories = asyncHandler(async (req, res) => {
 //route /api/blogs
 // access private/(public before auth)
 const getBlogs = asyncHandler(async (req, res) => {
-  const blogs = await Blog.find();
+  const blogs = await Blog.find({ status: "Published" });
   res.status(200).json(blogs);
 });
 
@@ -29,6 +29,10 @@ const getBlog = asyncHandler(async (req, res) => {
   if (!blog) {
     res.status(400);
     throw new Error("Blog Not Found");
+  }
+  if (blog.status === "Draft") {
+    res.status(401);
+    throw new Error("Author of this post has not yet Published it...");
   }
   res.status(200).json({
     id: blog._id,
@@ -124,12 +128,10 @@ const updateUserBlogs = asyncHandler(async (req, res) => {
     { author: req.body.newUserName }
   );
   if (blogs) {
-    res
-      .status(200)
-      .json({
-        "updated?": blogs.acknowledged,
-        "items count:": blogs.modifiedCount,
-      });
+    res.status(200).json({
+      "updated?": blogs.acknowledged,
+      "items count:": blogs.modifiedCount,
+    });
   }
 });
 
