@@ -19,10 +19,10 @@ const getComments = asyncHandler(async (req, res) => {
 // access  private
 const addComment = asyncHandler(async (req, res) => {
   if (
-    req.body.commentOwnerId ||
-    req.body.commentOwnerName ||
-    req.body.commentText ||
-    req.body.blogId
+    !req.body.commentOwnerId ||
+    !req.body.commentOwnerName ||
+    !req.body.commentText ||
+    !req.body.blogId
   ) {
     res.status(400);
     throw new Error("Required fields must be set...");
