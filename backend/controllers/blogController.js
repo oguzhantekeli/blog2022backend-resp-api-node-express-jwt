@@ -48,6 +48,7 @@ const getBlog = asyncHandler(async (req, res) => {
   }
   res.status(200).json({
     id: blog._id,
+    authorId: blog.authorId,
     title: blog.title,
     text: blog.text,
     author: blog.author,
