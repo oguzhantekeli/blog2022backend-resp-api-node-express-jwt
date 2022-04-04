@@ -75,7 +75,15 @@ Auth: Bearer Token
   
 ------------------------------------------  
   
-COMMENTS ENDPOINTS (may not be working 8-D ) also needs mongo data schema refactor...  
-  
-Thx BTW..  
+COMMENTS ENDPOINTS  
+
+Get All Comments for a Post  
+method: get  
+url: /comments/:id  
+
+Post New Comment (Protected)  
+method: post  
+url: /comments  
+Auth: Bearer Token  
+Body->{commentOwnerId(required),commentOwnerName(required),commentOwnerAvatar(required),commentText(required)}  
   
