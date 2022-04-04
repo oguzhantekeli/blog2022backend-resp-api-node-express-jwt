@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {
   getBlogs,
+  getMyBlogs,
   getBlog,
   setBlog,
   updateBlog,
@@ -17,6 +18,7 @@ router
   .post(protect, setBlog)
   .put(protect, updateUserBlogs);
 router.route("/categories").get(getCategories);
+router.route("/myblogs").get(getMyBlogs);
 router
   .route("/:id")
   .put(protect, updateBlog)

@@ -21,6 +21,14 @@ const getBlogs = asyncHandler(async (req, res) => {
   res.status(200).json(blogs);
 });
 
+//desc get users blogs including drafts
+//route /api/blogs/myblogs
+// access private
+const getMyBlogs = asyncHandler(async (req, res) => {
+  const blogs = await Blog.find();
+  res.status(200).json(blogs);
+});
+
 //desc get single blog
 //route /api/blog/:id
 // access private/(public before auth)
@@ -121,7 +129,9 @@ const updateBlog = asyncHandler(async (req, res) => {
     tags: updatedBlog.tags,
   });
 });
-
+//desc update author name when username changed
+//route /api/blogs/:id
+// access private/(public before auth)
 const updateUserBlogs = asyncHandler(async (req, res) => {
   const blogs = await Blog.updateMany(
     { author: req.body.oldUserName },
@@ -159,6 +169,7 @@ const deleteBlog = asyncHandler(async (req, res) => {
 
 module.exports = {
   getBlogs,
+  getMyBlogs,
   getBlog,
   setBlog,
   updateBlog,
