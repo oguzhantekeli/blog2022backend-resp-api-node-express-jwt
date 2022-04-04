@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Comment = require("../models/commentModel");
+const User = require("../models/userModel");
 
 //
 //
@@ -17,6 +18,24 @@ const getComments = asyncHandler(async (req, res) => {
 // route post /api/comments/:blogId
 // access  private
 const addComment = asyncHandler(async (req, res) => {
+  if (
+    req.body.commentOwnerId ||
+    req.body.commentOwnerName ||
+    req.body.commentText ||
+    req.body.blogId
+  ) {
+    res.status(400);
+    throw new Error("Required fields must be set...");
+  }
+  const user = User.findById(req.body.commentOwnerId);
+  if (!user) {
+    res.status(401);
+    throw new Error("User Not Found...");
+  }
+  if (req.user.id !== req.body.commentOwnerId) {
+    res.status(401);
+    throw new Error("Unauthenticated Action. Login First...");
+  }
   const comment = await Comment.create({
     blogId: req.params.id,
     commentOwnerId: req.body.commentOwnerId,
@@ -24,7 +43,9 @@ const addComment = asyncHandler(async (req, res) => {
     commentText: req.body.commentText,
   });
   res.status(200).json({
+    id: comment._id,
     blogId: comment.blogId,
+    commentOwnerAvatar: user.avatar,
     commentOwnerId: comment.commentOwnerId,
     commentOwnerName: comment.commentOwnerName,
     commentText: comment.commentText,
