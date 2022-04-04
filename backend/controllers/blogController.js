@@ -26,6 +26,10 @@ const getBlogs = asyncHandler(async (req, res) => {
 // access private
 const getMyBlogs = asyncHandler(async (req, res) => {
   const blogs = await Blog.find();
+  if (!blogs) {
+    res.status(400);
+    throw new Error("User Has No blogs...");
+  }
   res.status(200).json(blogs);
 });
 
