@@ -18,7 +18,7 @@ router
   .post(protect, setBlog)
   .put(protect, updateUserBlogs);
 router.route("/categories").get(getCategories);
-router.route("/myblogs").get(getMyBlogs);
+router.route("/myblogs").get(protect, getMyBlogs);
 router
   .route("/:id")
   .put(protect, updateBlog)
