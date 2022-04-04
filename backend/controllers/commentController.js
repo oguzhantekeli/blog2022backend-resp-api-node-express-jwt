@@ -35,7 +35,9 @@ const addComment = asyncHandler(async (req, res) => {
   if (req.user.id !== user._id) {
     res.status(401);
     throw new Error(
-      `Unauthenticated Action. Login First...${req.user.id} - ${user}`
+      `Unauthenticated Action. Login First...${req.user.id} - ${JSON.stringify(
+        user
+      )}`
     );
     // throw new Error("Unauthenticated Action. Login First...");
   }
