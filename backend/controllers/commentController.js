@@ -10,7 +10,7 @@ const User = require("../models/userModel");
 
 //get all comments
 const getComments = asyncHandler(async (req, res) => {
-  const comments = await Comment.find();
+  const comments = await Comment.find({ blogId: req.params.id });
   res.status(200).json(comments);
 });
 
@@ -22,7 +22,8 @@ const addComment = asyncHandler(async (req, res) => {
     !req.body.commentOwnerId ||
     !req.body.commentOwnerName ||
     !req.body.commentText ||
-    !req.body.blogId
+    !req.body.blogId ||
+    !req.params.id
   ) {
     res.status(400);
     throw new Error("Required fields must be set...");
@@ -32,7 +33,8 @@ const addComment = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error("User Not Found...");
   }
-  if (req.user.id !== user._id) {
+  if (req.user.id !== user._id.toString()) {
+    console.log(req.user.id, user._id.toString(), req.body.commentOwnerId);
     res.status(401);
     throw new Error("Unauthenticated Action. Login First...");
   }
@@ -41,6 +43,7 @@ const addComment = asyncHandler(async (req, res) => {
     commentOwnerId: req.body.commentOwnerId,
     commentOwnerName: req.body.commentOwnerName,
     commentText: req.body.commentText,
+    commentOwnerAvatar: user.avatar,
   });
   res.status(200).json({
     id: comment._id,

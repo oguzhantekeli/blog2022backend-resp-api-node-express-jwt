@@ -16,6 +16,11 @@ const commentSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    commentOwnerAvatar: {
+      type: String,
+      required: true,
+      default: "default",
+    },
     commentText: {
       type: String,
       required: true,
